@@ -5,8 +5,9 @@ from datetime import datetime
 import pika
 
 
-async def process_request(request):
-    delay = request['request'].get('delay')
+async def process_request(data):
+    request = data.get('request')
+    delay = request.get('delay')
     await asyncio.sleep(delay)
 
 

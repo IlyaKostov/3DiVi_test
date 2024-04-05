@@ -1,0 +1,42 @@
+version: '3'
+services:
+  rabbitmq:
+    image: rabbitmq:3.13-management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    healthcheck:
+      test: [ "CMD", "rabbitmqctl", "status" ]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+
+  receiver:
+    build: ./receiver_service
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+
+  processor:
+    build: ./processor_service
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+
+  writer:
+    build: ./writer_service
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+
+  client:
+    build: ./client_service
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      processor:
+        condition: service_started
+      writer:
+        condition: service_started
+      receiver:
+        condition: service_started

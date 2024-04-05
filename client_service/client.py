@@ -5,7 +5,7 @@ import json
 import random
 import asyncio
 
-logging.basicConfig(level=logging.INFO, filename='client_log.log', filemode='w',
+logging.basicConfig(level=logging.INFO, filename='client_log.log', filemode='a',
                     format='%(asctime)s - Thread %(thread)d - %(message)s')
 
 connection = pika.BlockingConnection(pika.ConnectionParameters('localhost'))

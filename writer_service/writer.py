@@ -2,7 +2,7 @@ import json
 import pika
 
 
-async def write_to_txt(data):
+def write_to_txt(data):
     request = data.get('request')
     request_id = request.get('id')
     receive_time = data.get('receive_time')

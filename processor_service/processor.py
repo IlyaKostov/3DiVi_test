@@ -1,5 +1,6 @@
 import asyncio
 import json
+import time
 from datetime import datetime
 
 import pika
@@ -20,7 +21,7 @@ if __name__ == '__main__':
         request = json.loads(body)
         print("Processing request:", request)
         process_request(request)
-        write_time = datetime.now()
+        write_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         request['write_time'] = write_time
         data = json.dumps(request)
         ch.basic_publish(exchange='', routing_key='processor_queue', body=data)
